@@ -1,3 +1,7 @@
 (function($) {
-  // All the goodness will go in here !!!
+
+  var Note = Backbone.Model.extend({});
+
+  window.note = new Note();
+
 })(jQuery);
