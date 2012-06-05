@@ -1,12 +1,15 @@
 (function($) {
 
   var Note = Backbone.Model.extend({});
+
   var NoteView = Backbone.View.extend({
     className: 'note-view',
 
+    template: _.template("<h2><%= title %></h2>"),
+
     render: function(){
-      var html = '<h2>' + this.model.get('title') + '</h2>';
-      $(this.el).html(html);
+      var attr = this.model.toJSON();
+      this.$el.html(this.template(attr));
     }
   });
 
