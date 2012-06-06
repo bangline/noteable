@@ -81,7 +81,6 @@ $(function() {
 
     toggleAsFavorite: function() {
       this.model.toggleAsFavorite();
-      this.model.get('starred') ? this.$el.addClass('favorited') : this.$el.removeClass('favorited');
       return false;
     }
   });
