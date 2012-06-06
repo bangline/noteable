@@ -4,6 +4,8 @@ require 'yaml'
 config = YAML::load( File.open('db/config.yml') )['development']
 ActiveRecord::Base.establish_connection(config)
 
+ActiveRecord::Base.include_root_in_json = false
+
 class Note < ActiveRecord::Base
 end
 
@@ -18,11 +20,15 @@ class Notable < Sinatra::Base
   get '/notes' do
     notes = Note.all
     status_ok
+    puts notes.to_json.inspect
     body notes.to_json
   end
 
   post '/notes' do
-    note = Note.new(params)
+    note_params = JSON.parse(request.body.read)
+    puts note_params.inspect
+    puts note_params.class
+    note = Note.new(note_params)
     if note.save
       status_ok
       body note.to_json
@@ -32,7 +38,7 @@ class Notable < Sinatra::Base
     end
   end
 
-  private
+private
 
   def status_ok
     status 200

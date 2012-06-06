@@ -1,11 +1,10 @@
 $(function() {
 
   var Note = Backbone.Model.extend({
-
     defaults: {
       content: 'Edit your text here',
       title: 'New Note',
-      created_at: new Date().toString('dd/MM/yy HH:mm:ss'),
+      created_at: new Date().toLocaleString(),
       starred: false
     },
 
@@ -19,6 +18,7 @@ $(function() {
   });
 
   var NoteView = Backbone.View.extend({
+    model: Note,
     tagName: 'article',
     className: 'note-view span4',
 
@@ -35,7 +35,6 @@ $(function() {
         <textarea><%= content %></textarea> \
         <div class='actions'> \
           <a href='#' class='favorite'><% starred ? print('Un-favorite') : print('Favorite') %></a> \
-          <a href='#' class='save'>Save</a> \
           <a href='#' class='delete'>Delete</a> \
         </div> \
       </div>"),
@@ -85,10 +84,32 @@ $(function() {
     }
   });
 
-  window.note = new Note({ title: 'Learning Backbone' });
-  
-  window.noteView = new NoteView({ model: note });
+  var NoteList = Backbone.Collection.extend({ 
+    model: Note,
+    url: '/notes'
+  });
 
-  $('#app').html(window.noteView.render().el);
+  var Notes = new NoteList();
 
+  var AppView = Backbone.View.extend({
+    el: '#app',
+    collection: Notes,
+
+    initialize: function() {
+      this.collection.bind('reset', this.addAll, this);
+      this.collection.fetch();
+    },
+
+    addOne: function(note) {
+      var view = new NoteView({model: note});
+      this.$el.append(view.render().el);
+    },
+
+    addAll: function() {
+      this.collection.each(this.addOne, this);
+    }
+
+  });
+
+  window.app = new AppView();
 });
