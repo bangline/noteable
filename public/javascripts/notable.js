@@ -1,12 +1,17 @@
 $(function() {
 
-  var Note = Backbone.Model.extend({});
+  window.Note = Backbone.Model.extend({
+    defaults: {
+      content: 'notes to be rendered',
+      created_at: new Date()
+    }
+  });
 
-  var NoteView = Backbone.View.extend({
+  window.NoteView = Backbone.View.extend({
     tagName: 'article',
     className: 'note-view',
 
-    template: _.template("<h2><%= title %></h2>"),
+    template: _.template("<h2><%= title %></h2><span><%= created_at.toString('dd/MM/yy HH:mm:ss') %></span><p><%= content %></p>"),
 
     render: function(){
       var attr = this.model.toJSON();
@@ -15,9 +20,10 @@ $(function() {
     }
   });
 
-  window.note = new Note({ title: 'Learning Backbone', created_at: new Date() });
+  window.note = new Note({ title: 'Learning Backbone' });
   
   window.noteView = new NoteView({ model: note });
+
   $('#app').html(window.noteView.render().el);
 
 });
