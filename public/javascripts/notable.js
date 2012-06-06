@@ -51,6 +51,7 @@ $(function() {
     render: function(){
       var attr = this.model.toJSON();
       this.$el.html(this.template(attr));
+      this.model.get('starred') ? this.$el.addClass('favorited') : this.$el.removeClass('favorited');
       return this;
     },
 
