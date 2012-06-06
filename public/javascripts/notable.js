@@ -96,8 +96,18 @@ $(function() {
     collection: Notes,
 
     initialize: function() {
-      this.collection.bind('reset', this.addAll, this);
+      this.collection.on('add', this.addOne, this);
+      this.collection.on('reset', this.addAll, this);
       this.collection.fetch();
+    },
+
+    events: {
+      'click a#add-note': 'startNote' 
+    },
+
+    startNote: function() {
+      note = new Note();
+      this.collection.add(note);
     },
 
     addOne: function(note) {

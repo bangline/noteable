@@ -8,6 +8,12 @@ html, body {
   text-align: center;
 }
 
+#add-note {
+  margin-left: -80px;
+  display: inline-block;
+  float: left;
+}
+
 #title, .note-view p {
   font-family: 'Rock Salt', cursive;
 }
