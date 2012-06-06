@@ -9,9 +9,9 @@ $(function() {
 
   var NoteView = Backbone.View.extend({
     tagName: 'article',
-    className: 'note-view',
+    className: 'note-view span4',
 
-    template: _.template("<h2><%= title %></h2><span><%= created_at().toString('dd/MM/yy HH:mm:ss') %></span><p><%= content %></p>"),
+    template: _.template("<div><h2><%= title %></h2><span><%= created_at().toString('dd/MM/yy HH:mm:ss') %></span><p><%= content %></p></div>"),
 
     render: function(){
       var attr = this.model.toJSON();

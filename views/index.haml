@@ -1,5 +1,8 @@
 %html
   %head
+    %link{"rel" => "stylesheet", "href" => "/stylesheets/bootstrap.min.css", "type" => "text/css"}
+    %link{"href" => 'http://fonts.googleapis.com/css?family=Rock+Salt', "rel" => 'stylesheet', "type" => 'text/css'}
+    %link{"rel" => "stylesheet", "href" => "/stylesheets/noteable.css", "type" => "text/css"}
     %script{ type: 'text/javascript', src: '/javascripts/json2.js' }
     %script{ type: 'text/javascript', src: '/javascripts/jquery.js' }
     %script{ type: 'text/javascript', src: '/javascripts/underscore.js' }
@@ -7,7 +10,7 @@
     %script{ type: 'text/javascript', src: '/javascripts/date.js' }
     %script{ type: 'text/javascript', src: '/javascripts/notable.js' }
 
-  %body
-    %h1 Notable Backbone
+  %body{ class: 'container' }
+    %h1{ id: 'title' } Notable Backbone
   
-  #app
+  #app{ class: 'row' }
