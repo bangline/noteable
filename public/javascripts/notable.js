@@ -14,6 +14,7 @@ $(function() {
       } else {
         this.set('starred', true)
       }
+      this.save();
     }
   });
 
@@ -56,14 +57,14 @@ $(function() {
     updateTitle: function(e) {
       if (e.keyCode == 13) {
         value = this.$el.find('input').val();
-        this.model.set('title', value);
+        this.model.save({'title':value});
       }
     },
 
     updateContent: function(e) {
       if (e.keyCode == 13) {
         value = this.$el.find('textarea').val();
-        this.model.set('content', value);
+        this.model.save({'content':value});
       }
     },
 

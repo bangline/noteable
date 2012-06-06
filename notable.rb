@@ -25,9 +25,6 @@ class Notable < Sinatra::Base
   end
 
   post '/notes' do
-    note_params = JSON.parse(request.body.read)
-    puts note_params.inspect
-    puts note_params.class
     note = Note.new(note_params)
     if note.save
       status_ok
@@ -38,7 +35,22 @@ class Notable < Sinatra::Base
     end
   end
 
+  put '/notes/:id' do
+    note = Note.find(params[:id])
+    if note.update_attributes(note_params)
+      status_ok
+      body note.to_json
+    else
+      status_unprocessable_entity
+      body({ :error => "Could not save note, don't look at me!" }.to_json)
+    end
+  end
+
 private
+
+  def note_params
+    JSON.parse(request.body.read)
+  end
 
   def status_ok
     status 200
