@@ -29,8 +29,10 @@ $(function() {
     template: _.template("\
       <div> \
         <h2><%= title %></h2> \
+        <input value='<%= title %>' /> \
         <span><%= created_at %></span> \
         <p><%= content %></p> \
+        <textarea><%= content %></textarea> \
         <div class='actions'> \
           <a href='#' class='favorite'><% starred ? print('Un-favorite') : print('Favorite') %></a> \
           <a href='#' class='save'>Save</a> \
@@ -39,13 +41,41 @@ $(function() {
       </div>"),
 
     events: {
-      'click .favorite': 'toggleAsFavorite'
+      'click .favorite': 'toggleAsFavorite',
+      'dblclick h2': 'editTitle',
+      'dblclick p': 'editContent',
+      'keypress input': 'updateTitle',
+      'keypress textarea': 'updateContent'
     },
 
     render: function(){
       var attr = this.model.toJSON();
       this.$el.html(this.template(attr));
       return this;
+    },
+
+    updateTitle: function(e) {
+      if (e.keyCode == 13) {
+        value = this.$el.find('input').val();
+        this.model.set('title', value);
+      }
+    },
+
+    updateContent: function(e) {
+      if (e.keyCode == 13) {
+        value = this.$el.find('textarea').val();
+        this.model.set('content', value);
+      }
+    },
+
+    editTitle: function() {
+      this.$el.find('h2').hide();
+      this.$el.find('input').show();
+    },
+
+    editContent: function() {
+      this.$el.find('p').hide();
+      this.$el.find('textarea').show();
     },
 
     toggleAsFavorite: function() {
