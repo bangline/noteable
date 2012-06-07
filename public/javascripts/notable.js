@@ -4,7 +4,7 @@ $(function() {
     defaults: {
       content: 'Edit your text here',
       title: 'New Note',
-      created_at: new Date().toLocaleString(),
+      created_at: 'not saved yet',
       starred: false
     },
 
@@ -97,7 +97,11 @@ $(function() {
 
   var NoteList = Backbone.Collection.extend({ 
     model: Note,
-    url: '/notes'
+    url: '/notes',
+
+    comparator: function(note) {
+      return note.get('starred');
+    }
   });
 
   var Notes = new NoteList();
@@ -125,7 +129,7 @@ $(function() {
 
     addOne: function(note) {
       var view = new NoteView({model: note});
-      this.$el.append(view.render().el);
+      this.$el.prepend(view.render().el);
     },
 
     removeOne: function(note) {

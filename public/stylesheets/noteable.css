@@ -9,9 +9,8 @@ html, body {
 }
 
 #add-note {
-  margin-left: -80px;
-  display: inline-block;
-  float: left;
+  position: absolute;
+  margin-left: -70px;
 }
 
 #title, .note-view p {
