@@ -46,6 +46,16 @@ class Notable < Sinatra::Base
     end
   end
 
+  delete '/notes/:id' do
+    note = Note.find(params[:id])
+    if note.delete
+      status_ok
+    else
+      status_unprocessable_entity
+      body({ :error => "Could not save note, don't look at me!" }.to_json)
+    end
+  end
+
 private
 
   def note_params

@@ -15,6 +15,10 @@ $(function() {
         this.set('starred', true)
       }
       this.save();
+    },
+
+    clear: function() {
+      this.destroy();
     }
   });
 
@@ -42,6 +46,7 @@ $(function() {
 
     events: {
       'click .favorite': 'toggleAsFavorite',
+      'click .delete': 'removeNote',
       'dblclick h2': 'editTitle',
       'dblclick p': 'editContent',
       'keypress input': 'updateTitle',
@@ -82,6 +87,11 @@ $(function() {
     toggleAsFavorite: function() {
       this.model.toggleAsFavorite();
       return false;
+    }, 
+
+    removeNote: function() {
+      this.$el.remove();
+      this.model.clear();
     }
   });
 
@@ -99,11 +109,13 @@ $(function() {
     initialize: function() {
       this.collection.on('add', this.addOne, this);
       this.collection.on('reset', this.addAll, this);
+      this.collection.on('remove', this.removeOne, this);
       this.collection.fetch();
     },
 
     events: {
-      'click a#add-note': 'startNote' 
+      'click a#add-note': 'startNote',
+      'click a.delete': 'removeOne'
     },
 
     startNote: function() {
@@ -114,6 +126,10 @@ $(function() {
     addOne: function(note) {
       var view = new NoteView({model: note});
       this.$el.append(view.render().el);
+    },
+
+    removeOne: function(note) {
+      this.collection.remove(note);
     },
 
     addAll: function() {
